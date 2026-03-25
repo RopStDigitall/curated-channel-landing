@@ -1,13 +1,11 @@
 ---
 import { SITE_TITLE } from '../consts';
-import { Image } from 'astro:assets';
-import curatedLogo from '../../public/curated-channel-logo.webp';
 ---
 
 <header>
 	<nav>
 		<h1 class="sr-only"><a href="/">{SITE_TITLE}</a></h1>
-		<Image src={curatedLogo} alt="Logo" width={200} height={200} loading={'eager'} />
+		<img src="/curated-channel-logo.webp" alt="Logo" width="200" height="200" loading="eager" />
 	</nav>
 </header>
 <style>

@@ -1,15 +1,7 @@
 ---
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { actions } from 'astro:actions';
-
-import wlmlLogo from "../../public/Logo_WLML.png"
-import DJLogo from "../../public/DJ-logo.png"
-import RopstLogo from "../../public/ROPst-logo.png"
-import cherokeeLogo from "../../public/cherokee-logo-change.webp"
-import zieraLogo from "../../public/ziera-logo.webp"
-
 import Layout from '../layouts/Layout.astro';
-import Image from 'astro/components/Image.astro';
 
 const result = Astro.getActionResult(actions.contact);
 ---
@@ -20,10 +12,10 @@ const result = Astro.getActionResult(actions.contact);
 		<h2>Curated Brands</h2>
 
 		<div class="logos-section">
-			<Image src={cherokeeLogo} width={250} height={250} alt="" loading={'eager'} />
-			<Image src={wlmlLogo} width={250} height={250} alt="" loading={'eager'} />
-			<Image src={DJLogo} width={250} height={250} alt="" loading={'eager'} />
-			<Image src={zieraLogo} width={250} height={250} alt="" loading={'eager'} />
+			<img src="/cherokee-logo-change.webp" width="250" height="250" alt="" loading="eager" />
+			<img src="/Logo_WLML.png" width="250" height="250" alt="" loading="eager" />
+			<img src="/DJ-logo.png" width="250" height="250" alt="" loading="eager" />
+			<img src="/ziera-logo.webp" width="250" height="250" alt="" loading="eager" />
 		</div>
 	</section>
 	<section class="form-section">
@@ -54,7 +46,7 @@ const result = Astro.getActionResult(actions.contact);
 		<h3>Powered by</h3>
 		
 		<a href="https://ropstdigitall.com/" aria-label="Rop ST Digitall" target="_blank" rel="noopener noreferrer">
-			<Image src={RopstLogo} width={100} height={100} alt="" loading={'lazy'} />
+			<img src="/ROPst-logo.png" width="100" height="100" alt="" loading="lazy" />
 		</a>
 		
 	</section>
