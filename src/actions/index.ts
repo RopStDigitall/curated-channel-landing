@@ -9,13 +9,33 @@ export const server = {
       name: z.string().min(1, "Name is required"),
       email: z.string().email("Invalid email"),
       phone: z.string().optional(),
+      website: z.string().optional(), // honeypot
     }),
-    handler: async ({ name, email, phone }, context) => {
+    handler: async ({ name, email, phone, website }, context) => {
+      if (website) {
+        return { success: true };
+      }
+      const ip = context.request.headers.get("CF-Connecting-IP") ?? "unknown";
+      const kv: KVNamespace | undefined = (context.locals as any).runtime?.env
+        ?.CONTACT_RATE_LIMIT;
+
+      if (kv) {
+        const key = `rate:${ip}`;
+        const current = parseInt((await kv.get(key)) ?? "0");
+        if (current >= 3) {
+          throw new ActionError({
+            code: "TOO_MANY_REQUESTS",
+            message: "Too many submissions. Please try again later.",
+          });
+        }
+        await kv.put(key, String(current + 1), { expirationTtl: 600 });
+      }
+
       const resend = new Resend(context.locals.runtime.env.RESEND_API_KEY);
 
       const { error } = await resend.emails.send({
-        from: "Curated Channel <onboarding@resend.dev>",
-        to: "james@woollooshoe.com",
+        from: "Curated Channel <noreply@notifications.realcloudtracking.com>",
+        to: "camilo@ropstdigitall.com",
         subject: `New contact from ${name}`,
         html: `
           <h2>New contact form submission</h2>
@@ -27,7 +47,11 @@ export const server = {
       });
 
       if (error) {
-        throw new ActionError({ code: "INTERNAL_SERVER_ERROR", message: error.message });
+        console.error("Resend error:", error);
+        throw new ActionError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: error.message,
+        });
       }
 
       return { success: true };

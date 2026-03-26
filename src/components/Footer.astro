@@ -3,16 +3,22 @@ const today = new Date();
 ---
 
 <footer>
-	&copy; {today.getFullYear()}&nbsp;<a href="https://ropstdigitall.com/" target="_blank" rel="noopener noreferrer">Rop ST Digitall</a>. All rights reserved.
+	&copy; {today.getFullYear()}&nbsp;<a href="https://ropstdigitall.com/" target="_blank" rel="noopener noreferrer">Rop ST Digitall.</a> All rights reserved.
 </footer>
 <style>
 	footer {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
 		background: #0d0f14;
 		color: rgb(var(--gray));
 		text-align: center;
+		padding-bottom: 1em;
+
+		@media screen and (width >= 890px) {
+			padding-bottom: 3em;
+		}
 	}
 	.social-links {
 		display: flex;
