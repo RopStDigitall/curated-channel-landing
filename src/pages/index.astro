@@ -28,9 +28,9 @@ const result = Astro.getActionResult(actions.contact);
 			<p class="form-error">Something went wrong. Please try again.</p>
 		)}
 		<form class="contact-form" method="POST" action={actions.contact}>
-			<label for="website" class="honeypot" aria-hidden="true">
+			<div class="honeypot" aria-hidden="true">
 				<input type="text" name="website" id="website" tabindex="-1" autocomplete="off" />
-			</label>
+			</div>
 			<label for="name">
 				<span class="sr-only">Name</span>
 				<input type="text" name="name" id="name" placeholder="Name">
