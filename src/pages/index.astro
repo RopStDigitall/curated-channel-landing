@@ -14,10 +14,22 @@ const result = Astro.getActionResult(actions.contact);
 		<p>We aren’t just moving boxes; we are architects of brand prestige. <span class="highlighted">The Curation Channel</span> is a premier distribution showroom dedicated to representing footwear brands in their most elevated form.  At retail and online.</p>
 
 		<div class="logos-section">
-			<img src="/cherokee-logo-change.webp" width="100%" height="100%" alt="" loading="eager" />
-			<img src="/Logo_WLML.png" width="100%" height="100%" alt="" loading="eager" />
-			<img src="/DJ-logo.png" width="100%" height="100%" alt="" loading="eager" />
-			<img src="/ziera-logo.webp" width="100%" height="100%" alt="" loading="eager" />
+			<a href="https://www.cherokeeofcalifornia.com/" target="_blank" rel="noopener noreferrer">
+				<img src="/cherokee-logo-change.webp" width="100%" height="100%" alt="Cherokee of California" loading="eager" />
+				<span class="sr-only">opens in a new tab</span>
+			</a>
+			<a href="https://www.woolloomoolooshoe.com/" target="_blank" rel="noopener noreferrer">
+				<img src="/Logo_WLML.png" width="100%" height="100%" alt="Woolloomooloo" loading="eager" />
+				<span class="sr-only">opens in a new tab</span>
+			</a>
+			<a href="https://djangoandjuliette.us/" target="_blank" rel="noopener noreferrer">
+				<img src="/DJ-logo.png" width="100%" height="100%" alt="Django & Juliette" loading="eager" />
+				<span class="sr-only">opens in a new tab</span>
+			</a>
+			<a href="https://zierashoes.us/" target="_blank" rel="noopener noreferrer">
+				<img src="/ziera-logo.webp" width="100%" height="100%" alt="Ziera Shoes" loading="eager" />
+				<span class="sr-only">opens in a new tab</span>
+			</a>
 		</div>
 	</section>
 	<section class="form-section">
@@ -27,7 +39,8 @@ const result = Astro.getActionResult(actions.contact);
 		{result?.error && (
 			<p class="form-error">Something went wrong. Please try again.</p>
 		)}
-		<form class="contact-form" method="POST" action={actions.contact}>
+		<form class="contact-form" method="POST" action={actions.contact} aria-labelledby="form-heading">
+			<p id="form-heading">Interested in membership?</p>
 			<div class="honeypot" aria-hidden="true">
 				<input type="text" name="website" id="website" tabindex="-1" autocomplete="off" />
 			</div>
@@ -50,8 +63,9 @@ const result = Astro.getActionResult(actions.contact);
 	<section class="powered-section">
 		<h3>Powered by</h3>
 		
-		<a href="https://ropstdigitall.com/" aria-label="Rop ST Digitall" target="_blank" rel="noopener noreferrer">
-			<img src="/ROPst-logo.png" width="100" height="100" alt="" loading="lazy" />
+		<a href="https://ropstdigitall.com/" target="_blank" rel="noopener noreferrer">
+			<img src="/ROPst-logo.png" width="100" height="100" alt="Rop ST Digitall" loading="lazy" />
+			<span class="sr-only">opens in a new tab</span>
 		</a>
 		
 	</section>
@@ -65,14 +79,14 @@ const result = Astro.getActionResult(actions.contact);
 		row-gap: 1em;
 
 		h2 {
-			font-size: clamp(25px, 5vw, 40px);
+			font-size: clamp(18px, 3vw, 25px);
 			text-align: center;
 			text-transform: uppercase;
 			
 		}
 
 		p {
-			font-size: clamp(16px, 2vw, 20px);
+			font-size: clamp(14px, 1vw, 16px);
 		}
 
 		.highlighted {
@@ -159,6 +173,7 @@ const result = Astro.getActionResult(actions.contact);
 		row-gap: 1em;
 
 		h3 {
+			font-size: clamp(14px, 2vw, 20px);
 			text-transform: uppercase;
 		}
 	}
