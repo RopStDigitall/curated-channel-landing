@@ -43,7 +43,7 @@ export const server = {
 
       const { error } = await resend.emails.send({
         from: "Curated Channel <noreply@notifications.realcloudtracking.com>",
-        to: "camilo@ropstdigitall.com",
+        to: "james@woollooshoe.com",
         subject: `New contact from ${name}`,
         html: `
           <h2>New contact form submission</h2>
