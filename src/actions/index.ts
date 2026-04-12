@@ -9,10 +9,10 @@ export const server = {
       name: z.string().min(1, "Name is required"),
       email: z.string().email("Invalid email"),
       phone: z.string().optional(),
-      website: z.string().optional(), // honeypot
+      _hp: z.string().optional(), // honeypot
     }),
-    handler: async ({ name, email, phone, website }, context) => {
-      if (website) {
+    handler: async ({ name, email, phone, _hp }, context) => {
+      if (_hp) {
         return { success: true };
       }
 
