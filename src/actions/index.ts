@@ -39,7 +39,7 @@ export const server = {
           message: "Missing API key",
         });
       }
-      const resend = new Resend("re_SkBwbskh_7puoVeXziuaUijejt7n8znDC");
+      const resend = new Resend(apiKey);
 
       const { error } = await resend.emails.send({
         from: "Curated Channel <noreply@notifications.realcloudtracking.com>",
