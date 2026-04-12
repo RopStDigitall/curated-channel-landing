@@ -32,11 +32,18 @@ export const server = {
         await kv.put(key, String(current + 1), { expirationTtl: 600 });
       }
 
-      const resend = new Resend(context.locals.runtime.env.RESEND_API_KEY);
+      const apiKey = context.locals.runtime.env.RESEND_API_KEY;
+      if (!apiKey) {
+        throw new ActionError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Missing API key",
+        });
+      }
+      const resend = new Resend(apiKey);
 
       const { error } = await resend.emails.send({
         from: "Curated Channel <noreply@notifications.realcloudtracking.com>",
-        to: "james@woollooshoe.com",
+        to: "camilo@ropstdigitall.com",
         subject: `New contact from ${name}`,
         html: `
           <h2>New contact form submission</h2>
