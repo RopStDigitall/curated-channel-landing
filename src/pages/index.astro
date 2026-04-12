@@ -4,6 +4,13 @@ import { actions } from 'astro:actions';
 import Layout from '../layouts/Layout.astro';
 
 const result = Astro.getActionResult(actions.contact);
+
+if (result?.data?.success) {
+  return Astro.redirect('/?sent=1');
+}
+
+const sent   = Astro.url.searchParams.get('sent');
+const failed = result?.error;
 ---
 
 
@@ -33,13 +40,13 @@ const result = Astro.getActionResult(actions.contact);
 		</div>
 	</section>
 	<section class="form-section">
-		{result?.data?.success && (
+		{sent && (
 			<p class="form-success">Thanks! We'll be in touch soon.</p>
 		)}
-		{result?.error && (
+		{failed && (
 			<p class="form-error">Something went wrong. Please try again.</p>
 		)}
-		<form class="contact-form" method="POST" action={actions.contact} aria-labelledby="form-heading">
+		<form class="contact-form" method="POST" action={actions.contact} aria-labelledby="form-heading" enctype="multipart/form-data">
 			<p id="form-heading">Interested in membership?</p>
 			<div class="honeypot" aria-hidden="true">
 				<input type="text" name="website" id="website" tabindex="-1" autocomplete="off" />
@@ -52,10 +59,9 @@ const result = Astro.getActionResult(actions.contact);
 				<span class="sr-only">Email</span>
 				<input type="email" name="email" id="email" placeholder="Email">
 			</label>
-			<label for="phone">
-				<span class="sr-only">Phone</span>
-				<input type="tel" name="phone" id="phone" placeholder="Phone">
-			</label>
+			<label for="phone" class="sr-only">Phone number</label>
+			<input type="tel" id="phone" placeholder="Phone number" autocomplete="tel">
+			<input type="hidden" name="phone" id="phone-full">
 			<button type="submit">Send</button>
 		</form>
 	</section>
@@ -142,10 +148,57 @@ const result = Astro.getActionResult(actions.contact);
 		visibility: hidden;
 	}
 
+	.iti {
+		width: 100%;
+	}
+
+	.iti__tel-input {
+		width: 100% !important;
+	}
+
+	.iti__flag-container .iti__selected-dial-code {
+		color: rgba(255, 255, 255, 0.85);
+		font-size: 0.875rem;
+	}
+
+	.iti__country-list {
+		background-color: #1a1d26 !important;
+		border: 1px solid rgba(255, 255, 255, 0.12) !important;
+		color: #fff !important;
+		border-radius: 8px;
+		box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+	}
+
+	.iti__country.iti__highlight,
+	.iti__country:hover {
+		background-color: rgba(255, 255, 255, 0.08) !important;
+	}
+
+	.iti__dial-code {
+		color: rgba(255, 255, 255, 0.5) !important;
+	}
+
+	.iti__search-input {
+		background-color: rgba(255, 255, 255, 0.05) !important;
+		color: #fff !important;
+		border-color: rgba(255, 255, 255, 0.15) !important;
+		border-radius: 6px;
+	}
+
+	.iti__selected-country {
+		background: transparent;
+		border-radius: 8px 0 0 8px;
+	}
+
+	.iti__selected-country-primary:hover,
+	.iti__selected-country-primary:focus {
+		background-color: rgba(255, 255, 255, 0.06) !important;
+	}
+
 	.contact-form {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		text-align: center;
 		row-gap: 1em;
 		width: 100%;
 
@@ -180,15 +233,35 @@ const result = Astro.getActionResult(actions.contact);
 </style>
 
 <script>
+  import intlTelInput from 'intl-tel-input';
+  import 'intl-tel-input/dist/css/intlTelInput.css';
+
   const success = document.querySelector('.form-success');
   const form = document.querySelector('.contact-form') as HTMLFormElement | null;
   const btn = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+  const phoneInput = document.querySelector('#phone') as HTMLInputElement | null;
+  const phoneFull = document.querySelector('#phone-full') as HTMLInputElement | null;
 
   if (success) {
     setTimeout(() => success.remove(), 5000);
   }
 
-  form?.addEventListener('submit', () => {
+  let iti: ReturnType<typeof intlTelInput> | null = null;
+
+  if (phoneInput) {
+    iti = intlTelInput(phoneInput, {
+      initialCountry: 'us',
+      countrySearch: true,
+      separateDialCode: true,
+      loadUtils: () => import('intl-tel-input/utils'),
+    });
+  }
+
+  form?.addEventListener('submit', (e) => {
+    if (iti && phoneFull) {
+      const fullNumber = iti.getNumber();
+      if (fullNumber) phoneFull.value = fullNumber;
+    }
     if (btn) {
       btn.disabled = true;
       btn.textContent = 'Sending...';

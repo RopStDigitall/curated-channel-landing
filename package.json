@@ -18,6 +18,7 @@
 		"@astrojs/sitemap": "3.6.1",
 		"@fontsource-variable/oswald": "^5.2.8",
 		"astro": "5.16.9",
+		"intl-tel-input": "^27.0.8",
 		"resend": "^6.9.4",
 		"typescript": "5.9.3"
 	},

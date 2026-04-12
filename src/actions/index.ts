@@ -15,6 +15,7 @@ export const server = {
       if (website) {
         return { success: true };
       }
+
       const ip = context.request.headers.get("CF-Connecting-IP") ?? "unknown";
       const kv: KVNamespace | undefined = (context.locals as any).runtime?.env
         ?.CONTACT_RATE_LIMIT;
